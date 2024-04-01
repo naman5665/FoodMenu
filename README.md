@@ -6,6 +6,7 @@ The idea of this app is to give you the details of food before you order or befo
 <h2><strong>UI/UX:</strong></h2>
 
 Main Screen
+
 ![ezgif-6-bad3d78fda](https://github.com/naman5665/FoodMenu/assets/49284810/ff2c128b-61f0-435a-bbf4-c2a27189473d)
 
 

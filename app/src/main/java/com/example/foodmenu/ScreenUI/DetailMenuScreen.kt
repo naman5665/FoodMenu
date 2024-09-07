@@ -127,7 +127,7 @@ fun CardOfDetails(menuItemDataModel: MenuItemDataModel) {
             LayoutEachItem(index,menuItemDataModel)
         }
         Text(
-            text = "Note: Details are per 100g",
+            text = "*Note: Details are per 100g",
             color = Color.Black,
             textAlign = TextAlign.Center,
             fontSize = 10.sp
@@ -178,10 +178,10 @@ fun showTextKey(i: Int): String {
 
 fun showTextValue(i: Int, menuItemDataModel: MenuItemDataModel): String {
     return when(i){
-        0 -> menuItemDataModel.proteins
+        0 -> menuItemDataModel.proteins + "*"
         1 -> menuItemDataModel.calories
-        2 -> menuItemDataModel.fats
-        3 -> menuItemDataModel.carbos
+        2 -> menuItemDataModel.fats + "*"
+        3 -> menuItemDataModel.carbos + "*"
         else -> ""
     }
 }

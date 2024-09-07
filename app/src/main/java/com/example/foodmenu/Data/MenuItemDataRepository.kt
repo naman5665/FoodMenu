@@ -11,12 +11,12 @@ class MenuItemDataRepository {
         return parseJsonToModel(jsonString)
     }
 
-    private fun readJsonFromAssets(context: Context, fileName: String): String {
-        return context.assets.open(fileName).bufferedReader().use { it.readText() }
-    }
-
     private fun parseJsonToModel(jsonString: String): List<MenuItemDataModel> {
         val gson = Gson()
         return gson.fromJson(jsonString, object : TypeToken<List<MenuItemDataModel>>() {}.type)
+    }
+
+    private fun readJsonFromAssets(context: Context, fileName: String): String {
+        return context.assets.open(fileName).bufferedReader().use { it.readText() }
     }
 }

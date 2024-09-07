@@ -34,8 +34,13 @@ import com.example.foodmenu.ui.theme.FoodMenuTheme
 
 class MainActivity : ComponentActivity() {
 
+//    private lateinit var myViewModel: DataViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+//        myViewModel = ViewModelProvider(this).get(DataViewModel::class.java)
+
         setContent {
             FoodMenuTheme {
                 // A surface container using the 'background' color from the theme
@@ -66,10 +71,10 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun SetNavigationComponents() {
-
-        var selectedItemMenu by remember { mutableStateOf<MenuItemDataModel?>(null) }
+        var selectedItemMenu by remember {
+            mutableStateOf<MenuItemDataModel?>(null)
+        }
         val navController = rememberNavController()
-
         NavHost(navController, startDestination = "main") {
             composable("main") {
                 ShowMeTheMenu {

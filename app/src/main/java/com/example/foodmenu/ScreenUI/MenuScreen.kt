@@ -48,7 +48,7 @@ fun MenuScreen(onMenuItemClick: (MenuItemDataModel) -> Unit) {
         Text(modifier = Modifier.fillMaxWidth(), text = "Loading...")
     }else{
         LazyColumn(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            items(menuItemsDataList){
+            items(menuItemsDataList){ it->
                 MakeCard(menuItemDataModel = it,onMenuItemClick)
             }
         }

@@ -1,5 +1,6 @@
 package com.example.foodmenu.ScreenUI
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,9 +11,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,6 +31,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -34,11 +41,27 @@ import com.example.foodmenu.ui.theme.Purple
 
 @Composable
 fun DetailScreen(menuItemDataModel: MenuItemDataModel){
-    Column(modifier = Modifier.padding(16.dp),horizontalAlignment = Alignment.CenterHorizontally) {
-        HeadingText(menuItemDataModel)
-        ImagesPart(menuItemDataModel)
-        Text(text = "\"${menuItemDataModel.description}\"" , fontStyle = FontStyle.Italic , color = Color.Gray)
-        DetailsPart(menuItemDataModel)
+    LazyColumn(modifier = Modifier.padding(16.dp),horizontalAlignment = Alignment.CenterHorizontally) {
+        item {
+            HeadingText(menuItemDataModel)
+        }
+        item {
+            ImagesPart(menuItemDataModel)
+        }
+        item {
+            DescriptionText(menuItemDataModel)
+        }
+        item {
+            DetailsPart(menuItemDataModel)
+        }
+        item {
+            ElevatedButton(
+                onClick = { /*TODO*/ }
+            ) {
+                Text(text = "Order From Restaurant")
+            }
+        }
+
     }
 }
 
@@ -71,30 +94,41 @@ fun ImagesPart(menuItemDataModel: MenuItemDataModel) {
             .clip(RoundedCornerShape(16.dp))
     )
 }
+@Composable
+fun DescriptionText(menuItemDataModel: MenuItemDataModel){
+    var isExpanded by remember { mutableStateOf(false) }
+
+    Text(
+        text = "\"${menuItemDataModel.description}\"",
+        fontStyle = FontStyle.Italic,
+        color = Color.Gray,
+        maxLines = if (isExpanded) Int.MAX_VALUE else 3,
+        overflow = if (isExpanded) TextOverflow.Visible else TextOverflow.Ellipsis,
+        modifier = Modifier.clickable {
+            isExpanded = !isExpanded
+        }
+    )
+}
 
 @Composable
 fun DetailsPart(menuItemDataModel: MenuItemDataModel) {
     ElevatedCard(modifier = Modifier.padding(4.dp)) {
-        Column(modifier = Modifier.padding(6.dp)) {
-            CardOfDetails(menuItemDataModel)
-        }
+        CardOfDetails(menuItemDataModel)
     }
 }
 
 @Composable
 fun CardOfDetails(menuItemDataModel: MenuItemDataModel) {
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(4){index ->
+    Column(modifier = Modifier.padding(6.dp)) {
+        for(index in 0..3){
             LayoutEachItem(index,menuItemDataModel)
         }
-        item {
-            Text(
-                text = "Note: Details are per 100g",
-                color = Color.Black,
-                textAlign = TextAlign.Center,
-                fontSize = 10.sp
-            )
-        }
+        Text(
+            text = "*Note: Details are per 100g",
+            color = Color.Black,
+            textAlign = TextAlign.Center,
+            fontSize = 10.sp
+        )
     }
 }
 
@@ -141,10 +175,10 @@ fun showTextKey(i: Int): String {
 
 fun showTextValue(i: Int, menuItemDataModel: MenuItemDataModel): String {
     return when(i){
-        0 -> menuItemDataModel.proteins
+        0 -> menuItemDataModel.proteins + "*"
         1 -> menuItemDataModel.calories
-        2 -> menuItemDataModel.fats
-        3 -> menuItemDataModel.carbos
+        2 -> menuItemDataModel.fats + "*"
+        3 -> menuItemDataModel.carbos + "*"
         else -> ""
     }
 }
